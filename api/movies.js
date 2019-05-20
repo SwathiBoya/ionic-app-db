@@ -2,13 +2,6 @@ var express = require('express');
 var router = express.Router();
 var dbService = require('../services/movieDBService');
 
-var movieList = [
-  {id:1, moviename:'Bhahubhali', language:'Telugu', imageurl:'', productionhouse:'AAAA',ratiing:10,type:'Fantasy',releasedate:'12/1/2017'},
-  {id:2, moviename:'Jersy', language:'Telugu', imageurl:'', productionhouse:'AAAA',ratiing:10,type:'Romantic',releasedate:'12/1/2017'},
-  {id:3, moviename:'Arjun Suravaram', language:'Telugu', imageurl:'', productionhouse:'AAAA',ratiing:10,type:'Thriller',releasedate:'12/1/2017'}
-
-];
-
 router.get('/', function(req, res, next) {
   var callback = function(result){
     res.send(result);
@@ -16,8 +9,36 @@ router.get('/', function(req, res, next) {
   dbService.getMovies(callback);
 });
 
-router.get('/:id', function(req, res, next) {
-  res.send(movieList);
+router.post('/', function(req, res, next) {
+  var callback = function(result){
+    res.send({'result':result});
+  }
+  var movie = req.body;
+  dbService.addMovie(movie, callback);
 });
 
+router.delete('/:id', function(req, res, next) {
+  var callback = function(result){
+    res.send({'result':result});
+  }
+  var movieId = req.params.id;
+  dbService.deleteMovie(movieId,callback);
+});
+
+router.get('/:id', function(req, res, next) {
+  var callback = function(result){
+    res.send({'result':result});
+  }
+  var movieId = req.params.id;
+  var movie = dbService.getMovieById(movieId,callback);
+});
+
+router.put('/:id', function(req, res, next) {
+  var callback = function(result){
+    res.send({'result':result});
+  }
+  var movieId = req.params.id;
+  var movie = req.body;
+  dbService.updateCustomer(movie,callback);
+});
 module.exports = router;

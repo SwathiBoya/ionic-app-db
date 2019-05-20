@@ -2,6 +2,16 @@ var express = require('express');
 var router = express.Router();
 var dbService = require('../services/dbService');
 console.log("test project");
+
+
+router.get('/:phone', function(req, res, next) {
+  var callback = function(result){
+    res.send(result);
+  }
+  var customerPhone = req.params.phone;
+ dbService.getCustomerByPhone(customerPhone,callback);
+});
+
 router.get('/', function(req, res, next) {
   var callback = function(result){
     res.send(result);
@@ -25,13 +35,13 @@ router.delete('/:id', function(req, res, next) {
   dbService.deleteCustomer(customerId,callback);
 });
 
-router.get('/:id', function(req, res, next) {
-  var callback = function(customer){
-    res.send(customer);
-  }
-  var customerId = req.params.id;
-  var customer = dbService.getCustomerById(customerId,callback);
-});
+// router.get('/:id', function(req, res, next) {
+//   var callback = function(customer){
+//     res.send(customer);
+//   }
+//   var customerId = req.params.id;
+//   var customer = dbService.getCustomerById(customerId,callback);
+// });
 
 router.put('/:id', function(req, res, next) {
   var callback = function(result){
@@ -41,4 +51,5 @@ router.put('/:id', function(req, res, next) {
   var customer = req.body;
   dbService.updateCustomer(customer,callback);
 });
+
 module.exports = router;

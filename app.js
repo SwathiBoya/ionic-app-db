@@ -15,6 +15,7 @@ var customerRouter = require('./routes/customer');
 var authenticateRouter = require('./api/authenticate');
 var customersRouter = require('./api/customers');
 var moviesRouter = require('./api/movies');
+var bookingsRouter = require('./api/bookings');
 
 var app = express();
 var cors = require('cors');
@@ -55,9 +56,11 @@ app.use('/api/authenticate', authenticateRouter);
 app.use('/dashboard', dashboardRouter);
 app.use('/aboutus', aboutusRouter);
 app.use('/customers', customerRouter);
-app.use('/moviess', moviesRouter);
+app.use('/movies', moviesRouter);
+app.use('/bookings', bookingsRouter);
 app.use('/api/customers', customersRouter);
 app.use('/api/movies', moviesRouter);
+app.use('/api/bookings', bookingsRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -10,8 +10,8 @@ var pool = mysql.createPool({
 });
 
 var service = {};
-service.getCustomers = function(callback){
-  var sql = "SELECT * FROM customer";
+service.getBookings = function(callback){
+  var sql = "SELECT * FROM booking";
   pool.getConnection(function(err, connection) {
     if(err) { console.log(err); callback([{}]); return; }
     // make the query
@@ -25,10 +25,10 @@ service.getCustomers = function(callback){
   //return result; //line 24 execute before db reply
 };
 
-service.addCustomer = function(customer,callback) {
+service.addBooking = function(booking,callback) {
         pool.getConnection(function(err, connection) {
         if(err) { console.log(err); callback("fail"); return; }
-        connection.query("INSERT INTO customer set ? ",customer, function(err, results) {
+        connection.query("INSERT INTO booking set ? ",movie, function(err, results) {
           if(err){
            console.log("Error Selecting : %s ",err );
            callback("fail");
@@ -39,8 +39,8 @@ service.addCustomer = function(customer,callback) {
     });
 };
 
-service.deleteCustomer = function(id,callback){
-    var sql = "delete FROM customer where id='"+id+"'";
+service.deleteBooking = function(id,callback){
+    var sql = "delete FROM movie where id='"+id+"'";
   pool.getConnection(function(err, connection) {
     if(err) { console.log(err); callback("fail"); return; }
     // make the query
@@ -52,29 +52,29 @@ service.deleteCustomer = function(id,callback){
   });
 }
 
-service.getCustomerById = function(id,callback){
-  var record = {};
-  var sql = "SELECT * FROM customer where id='"+id+"'";
-  console.log("sql:"+sql);
-  pool.getConnection(function(err, connection) {
-    if(err) { console.log(err); callback({}); return; }
-    // make the query
-    connection.query(sql, function(err, results) {
-      connection.release();
-      if(err) { console.log(err); callback({}); return; }
-      if(results.length == 0){
-        callback(record);
-      }else{
-        callback(results[0]);
-      }
-    });
-  });
+// service.getBookingById = function(id,callback){
+//   var record = {};
+//   var sql = "SELECT * FROM booking where id='"+id+"'";
+//   console.log("sql:"+sql);
+//   pool.getConnection(function(err, connection) {
+//     if(err) { console.log(err); callback({}); return; }
+//     // make the query
+//     connection.query(sql, function(err, results) {
+//       connection.release();
+//       if(err) { console.log(err); callback({}); return; }
+//       if(results.length == 0){
+//         callback(record);
+//       }else{
+//         callback(results[0]);
+//       }
+//     });
+//   });
 
-};
-service.updateCustomer = function(customer,callback){
+// };
+service.updateBooking = function(booking,callback){
          pool.getConnection(function(err, connection) {
         if(err) { console.log(err); callback("fail"); return; }
-        connection.query("UPDATE customer set ? WHERE id = ? ",[customer,customer.id], function(err, results) {
+        connection.query("UPDATE booking set ? WHERE id = ? ",[customer,customer.id], function(err, results) {
           if(err){
            console.log("Error Selecting : %s ",err );
            callback("fail");
@@ -83,25 +83,6 @@ service.updateCustomer = function(customer,callback){
          }
       });
     });
-};
-
-//forgot password
-service.getCustomerByPhone= function(phone,callback){
-  var record = {};
-  var sql = "SELECT * FROM customer where phone='"+phone+"'";
-  console.log("sql:"+sql);
-  pool.getConnection(function(err, connection) {
-    if(err) { console.log(err); callback({}); return; }
-    // make the query
-    connection.query(sql, function(err, results) {
-      connection.release();
-      if(err) { console.log(err); callback({}); return; }
-      if(results.length != 0){
-        callback(results);
-      }
-    });
-  });
-
 };
 
 module.exports = service;

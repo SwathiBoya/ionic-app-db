@@ -11,7 +11,7 @@ var pool = mysql.createPool({
 
 var service = {};
 service.getMovies = function(callback){
-  var sql = "SELECT * FROM movie";
+  var sql = "SELECT * FROM movie ";
   pool.getConnection(function(err, connection) {
     if(err) { console.log(err); callback([{}]); return; }
     // make the query
@@ -25,7 +25,7 @@ service.getMovies = function(callback){
   //return result; //line 24 execute before db reply
 };
 
-service.addCustomer = function(customer,callback) {
+service.addMovie = function(movie,callback) {
         pool.getConnection(function(err, connection) {
         if(err) { console.log(err); callback("fail"); return; }
         connection.query("INSERT INTO movie set ? ",movie, function(err, results) {
@@ -39,7 +39,7 @@ service.addCustomer = function(customer,callback) {
     });
 };
 
-service.deleteCustomer = function(id,callback){
+service.deleteMovie = function(id,callback){
     var sql = "delete FROM movie where id='"+id+"'";
   pool.getConnection(function(err, connection) {
     if(err) { console.log(err); callback("fail"); return; }
@@ -52,7 +52,7 @@ service.deleteCustomer = function(id,callback){
   });
 }
 
-service.getCustomerById = function(id,callback){
+service.getMovieById = function(id,callback){
   var record = {};
   var sql = "SELECT * FROM movie where id='"+id+"'";
   console.log("sql:"+sql);
@@ -63,7 +63,7 @@ service.getCustomerById = function(id,callback){
       connection.release();
       if(err) { console.log(err); callback({}); return; }
       if(results.length == 0){
-        callback(record);
+        console.log('Not Found')
       }else{
         callback(results[0]);
       }
@@ -71,7 +71,7 @@ service.getCustomerById = function(id,callback){
   });
 
 };
-service.updateCustomer = function(customer,callback){
+service.updateMovie = function(movie,callback){
          pool.getConnection(function(err, connection) {
         if(err) { console.log(err); callback("fail"); return; }
         connection.query("UPDATE movie set ? WHERE id = ? ",[customer,customer.id], function(err, results) {
